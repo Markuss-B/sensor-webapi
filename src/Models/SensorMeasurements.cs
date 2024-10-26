@@ -15,6 +15,19 @@ public class SensorMeasurements
     [BsonElement("sensorId")]
     public string SensorId { get; set; } // Sensor Id given by the sensor
     [BsonElement("measurements")]
+    public Measurements Measurements { get; set; } // Measurements from the sensor
+}
+
+public class SensorMeasurementsBson
+{
+    [BsonId]
+    [BsonRepresentation(BsonType.ObjectId)]
+    public string Id { get; set; } // Unique identifier for each measurement record
+    [BsonElement("timestamp")]
+    public DateTime Timestamp { get; set; } // Time the measurement was recorded
+    [BsonElement("sensorId")]
+    public string SensorId { get; set; } // Sensor Id given by the sensor
+    [BsonElement("measurements")]
     [JsonConverter(typeof(BsonDocJsonConverter))]
     public BsonDocument Measurements { get; set; } // Measurements from the sensor
     /* Possible measurements from the sensor
