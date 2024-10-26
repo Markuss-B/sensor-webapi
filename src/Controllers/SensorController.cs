@@ -60,16 +60,9 @@ public class SensorController : ControllerBase
 
     // GET: api/measurmentCounts
     [HttpGet("measurmentCounts")]
-    public ActionResult<List<MeasurmentCountDto>> GetMeasurmentCounts()
+    public ActionResult<List<MeasurementCountDto>> GetMeasurmentCounts()
     {
-        var measurmentCounts = _sensorService.SensorQuery()
-            .Select(s => new
-            {
-                SensorId = s.Id,
-                SensorName = s.Name,
-                MeasurmentCount = s.SensorMeasurements != null ? s.SensorMeasurements.Count : 0
-            })
-            .ToList();
+        var measurmentCounts = _sensorService.GetSensorMeasurementsCount();
 
         return Ok(measurmentCounts);
     }

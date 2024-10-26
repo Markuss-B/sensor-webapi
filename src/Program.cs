@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SensorWebApi.Data;
+using SensorWebApi.Models.Configuration;
 using SensorWebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,8 +19,8 @@ builder.Services.AddCors(options =>
 // Add services to the container.
 builder.Services.AddControllers();
 
-builder.Services.AddDbContext<SensorDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SensorDb")));
+builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDbSettings"));
+builder.Services.AddSingleton<MongoDbContext>();
 
 builder.Services.AddScoped<SensorService>();
 

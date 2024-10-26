@@ -1,13 +1,22 @@
-﻿namespace SensorWebApi.Models;
+﻿using MongoDB.Bson.Serialization.Attributes;
+
+namespace SensorWebApi.Models;
 
 public class Sensor
 {
-    public required string Id { get; set; } // Unique identifier for each sensor
-    public string? BaseSerialNumber { get; set; }
-    public string? RootTopic { get; set; }
-    public string? Name { get; set; }
-    public string? ProductNumber { get; set; }
-    public string? Group { get; set; }
-    public string? GroupId { get; set; }
-    public List<SensorMeasurements>? SensorMeasurements { get; set; }
+    [BsonId]
+    public string Id { get; set; } // Unique ID for the sensor
+    [BsonElement("baseSerial")]
+    public string? BaseSerialNumber { get; set; } // Serial number of the base unit
+    [BsonElement("rootTopic")]
+    public string? RootTopic { get; set; } // Root topic for the sensor
+    [BsonElement("name")]
+    public string? Name { get; set; } // Sensor name
+    [BsonElement("productNumber")]
+    public string? ProductNumber { get; set; } // Product number of the sensor
+    [BsonElement("group")]
+    public string? Group { get; set; } // Group identifier for the sensor
+    [BsonElement("groupId")]
+    public string? GroupId { get; set; } // Group ID of the sensor
 }
+
