@@ -2,6 +2,7 @@
 
 namespace SensorWebApi.Models;
 
+[BsonIgnoreExtraElements]
 public class Measurements
 {
     // measurements object co2, temperature ...
