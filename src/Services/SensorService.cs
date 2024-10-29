@@ -55,6 +55,7 @@ public class SensorService
         return _context.SensorMeasurements
             .Find(filter)
             .SortByDescending(s => s.Timestamp)
+            .Limit(10)
             .ToList();
     }
 

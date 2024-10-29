@@ -4,8 +4,22 @@ using System.Text.Json;
 
 namespace SensorWebApi.Helpers;
 
-public class ObjectExtensions
+public static class ObjectExtensions
 {
+    public static string ToJsonString<TObject>(this TObject @object)
+    {
+        var output = "NULL";
+        if (@object != null)
+        {
+            output = JsonSerializer.Serialize(@object, new JsonSerializerOptions
+            {
+                WriteIndented = true
+            });
+        }
+
+        return $"[{@object?.GetType().Name}]:\r\n{output}";
+    }
+
     public class BsonDocJsonConverter : JsonConverter<BsonDocument>
     {
         public override BsonDocument? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
