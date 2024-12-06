@@ -36,19 +36,20 @@ public class SensorController : ControllerBase
         return Ok(sensor);
     }
 
-    [HttpGet("{sensorId}/measurements")]
-    public ActionResult<List<SensorMeasurements>> GetMeasurements(string sensorId, DateTime? dateFrom, DateTime? dateTo)
+    
+    [HttpGet("{sensorId}/measurements/today")]
+    public ActionResult<List<SensorMeasurements>> GetTodaysSensorMeasurements(string sensorId)
     {
         var sensor = _sensorService.GetSensorById(sensorId);
         if (sensor == null)
             return NotFound();
 
-        var measurements = _sensorService.GetSensorMeasurements(sensorId, dateFrom, dateTo);
+        var measurements = _sensorService.GetSensorMeasurements(sensorId, DateTime.Today);
         return Ok(measurements);
     }
 
     //// GET: api/Sensor/5/latestmeasurment
-    //[HttpGet("{sensorId}/latestmeasurement")]
+    //[HttpGet("{sensorId}/measurements/latest")]
     //public ActionResult<SensorMeasurements> GetLatestMeasurment(string sensorId)
     //{
     //    var latestMeasurment = _sensorService.GetLatestSensorMeasurment(sensorId);

@@ -15,6 +15,9 @@ public class SensorService
         _context = context;
     }
 
+    /// <summary>
+    /// Gets all sensors.
+    /// </summary>
     public List<Sensor> GetSensors()
     {
         return _context.Sensors
@@ -22,22 +25,29 @@ public class SensorService
             .ToList();
     }
 
-    public Sensor? GetSensorById(string id)
+    /// <summary>
+    /// Gets sensor by it's id.
+    /// </summary>
+    public Sensor? GetSensorById(string sensorId)
     {
         return _context.Sensors
-            .Find(s => s.Id == id)
+            .Find(s => s.Id == sensorId)
             .FirstOrDefault();
     }
 
-    public SensorMeasurements? GetLatestSensorMeasurment(string sensorId)
-    {
-        return _context.SensorMeasurements
-            .Find(s => s.SensorId == sensorId)
-            .SortByDescending(s => s.Timestamp)
-            .FirstOrDefault();
-    }
+    //public SensorMeasurements? GetLatestSensorMeasurment(string sensorId)
+    //{
+    //    return _context.SensorMeasurements
+    //        .Find(s => s.SensorId == sensorId)
+    //        .SortByDescending(s => s.Timestamp)
+    //        .FirstOrDefault();
+    //}
 
-    public List<SensorMeasurements> GetSensorMeasurements(string sensorId, DateTime? dateFrom, DateTime? dateTo)
+    /// <summary>
+    /// Get sensor measurements for a specific sensor during a specific time period.
+    /// If dateFrom is not provided, then only 100 records are returned.
+    /// </summary>
+    public List<SensorMeasurements> GetSensorMeasurements(string sensorId, DateTime? dateFrom = null, DateTime? dateTo = null)
     {
         var filterBuilder = Builders<SensorMeasurements>.Filter;
         var filter = filterBuilder.Eq(s => s.SensorId, sensorId);
@@ -52,15 +62,16 @@ public class SensorService
             filter &= filterBuilder.Lte(s => s.Timestamp, dateTo);
         }
 
-        return _context.SensorMeasurements
-            .Find(filter)
-            .SortByDescending(s => s.Timestamp)
-            .Limit(10)
-            .ToList();
-    }
+        var query = _context.SensorMeasurements
+            .Find(filter);
 
-    public List<MeasurementCountDto> GetSensorMeasurementsCount()
-    {
-        return null;
+        if (!dateFrom.HasValue && !dateTo.HasValue)
+        {
+            query = query.Limit(100);
+        }
+
+        return query
+            .SortByDescending(s => s.Timestamp)
+            .ToList();
     }
 }
