@@ -37,7 +37,7 @@ public class SensorService
             .FirstOrDefault();
     }
 
-    public List<SensorMeasurements> GetSensorMeasurments(string sensorId, DateTime? dateFrom, DateTime? dateTo)
+    public List<SensorMeasurements> GetSensorMeasurements(string sensorId, DateTime? dateFrom, DateTime? dateTo)
     {
         var filterBuilder = Builders<SensorMeasurements>.Filter;
         var filter = filterBuilder.Eq(s => s.SensorId, sensorId);

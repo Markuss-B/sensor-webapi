@@ -36,34 +36,45 @@ public class SensorController : ControllerBase
         return Ok(sensor);
     }
 
-    // GET: api/Sensor/5/latestmeasurment
-    [HttpGet("{sensorId}/latestmeasurment")]
-    public ActionResult<SensorMeasurements> GetLatestMeasurment(string sensorId)
-    {
-        var latestMeasurment = _sensorService.GetLatestSensorMeasurment(sensorId);
-        if (latestMeasurment == null)
-            return NotFound();
-        return Ok(latestMeasurment);
-    }
-
-    // GET: api/Sensor/5/measurments
-    [HttpGet("{sensorId}/measurments")]
-    public ActionResult<List<SensorMeasurements>> GetMeasurments(string sensorId, DateTime? dateFrom, DateTime? dateTo)
+    [HttpGet("{sensorId}/measurements")]
+    public ActionResult<List<SensorMeasurements>> GetMeasurements(string sensorId, DateTime? dateFrom, DateTime? dateTo)
     {
         var sensor = _sensorService.GetSensorById(sensorId);
         if (sensor == null)
             return NotFound();
 
-        var measurments = _sensorService.GetSensorMeasurments(sensorId, dateFrom, dateTo);
-        return Ok(measurments);
+        var measurements = _sensorService.GetSensorMeasurements(sensorId, dateFrom, dateTo);
+        return Ok(measurements);
     }
 
-    // GET: api/measurmentCounts
-    [HttpGet("measurmentCounts")]
-    public ActionResult<List<MeasurementCountDto>> GetMeasurmentCounts()
-    {
-        var measurmentCounts = _sensorService.GetSensorMeasurementsCount();
+    //// GET: api/Sensor/5/latestmeasurment
+    //[HttpGet("{sensorId}/latestmeasurement")]
+    //public ActionResult<SensorMeasurements> GetLatestMeasurment(string sensorId)
+    //{
+    //    var latestMeasurment = _sensorService.GetLatestSensorMeasurment(sensorId);
+    //    if (latestMeasurment == null)
+    //        return NotFound();
+    //    return Ok(latestMeasurment);
+    //}
 
-        return Ok(measurmentCounts);
-    }
+    //// GET: api/Sensor/5/measurements
+    //[HttpGet("{sensorId}/measurements")]
+    //public ActionResult<List<SensorMeasurements>> GetMeasurements(string sensorId, DateTime? dateFrom, DateTime? dateTo)
+    //{
+    //    var sensor = _sensorService.GetSensorById(sensorId);
+    //    if (sensor == null)
+    //        return NotFound();
+
+    //    var measurements = _sensorService.GetSensorMeasurements(sensorId, dateFrom, dateTo);
+    //    return Ok(measurements);
+    //}
+
+    //// GET: api/measurmentCounts
+    //[HttpGet("measurmentCounts")]
+    //public ActionResult<List<MeasurementCountDto>> GetMeasurmentCounts()
+    //{
+    //    var measurmentCounts = _sensorService.GetSensorMeasurementsCount();
+
+    //    return Ok(measurmentCounts);
+    //}
 }
