@@ -18,5 +18,7 @@ public class Sensor
     public string? Group { get; set; } // Group identifier for the sensor
     [BsonElement("groupId")]
     public string? GroupId { get; set; } // Group ID of the sensor
+    [BsonElement("location")]
+    public string? Location { get; set; } // Location of the sensor. Usually set by user.
 }
 

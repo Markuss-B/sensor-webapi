@@ -71,7 +71,24 @@ public class SensorService
         }
 
         return query
-            .SortByDescending(s => s.Timestamp)
+            .SortBy(s => s.Timestamp)
             .ToList();
+    }
+
+    /// <summary>
+    /// Updates a sensor. Currently only allows updates on the location.
+    /// </summary>
+    /// <param name="sensor"></param>
+    /// <returns></returns>
+    public bool UpdateSensor(Sensor sensor)
+    {
+        var filter = Builders<Sensor>.Filter.Eq(s => s.Id, sensor.Id);
+
+        var update = Builders<Sensor>.Update
+            .Set(s => s.Location, sensor.Location);
+
+        var result = _context.Sensors.UpdateOne(filter, update);
+
+        return result.ModifiedCount > 0;
     }
 }

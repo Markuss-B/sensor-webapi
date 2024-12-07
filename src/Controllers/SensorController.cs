@@ -48,6 +48,23 @@ public class SensorController : ControllerBase
         return Ok(measurements);
     }
 
+    // PUT: api/sensor
+    [HttpPut]
+    public ActionResult Put(Sensor sensor)
+    {
+        // check if sensor exists
+        var existingSensor = _sensorService.GetSensorById(sensor.Id);
+        if (existingSensor == null)
+            return NotFound();
+
+        var success = _sensorService.UpdateSensor(sensor);
+
+        if (!success)
+            return BadRequest();
+
+        return Ok();
+    }
+
     //// GET: api/Sensor/5/latestmeasurment
     //[HttpGet("{sensorId}/measurements/latest")]
     //public ActionResult<SensorMeasurements> GetLatestMeasurment(string sensorId)
