@@ -2,7 +2,6 @@
 using MongoDB.Driver;
 using SensorWebApi.Data;
 using SensorWebApi.Models;
-using SensorWebApi.Models.Dto;
 
 namespace SensorWebApi.Services;
 
@@ -76,16 +75,18 @@ public class SensorService
     }
 
     /// <summary>
-    /// Updates a sensor. Currently only allows updates on the location.
+    /// Updates a sensor. Currently only allows updates on the location and isActive.
     /// </summary>
     /// <param name="sensor"></param>
     /// <returns></returns>
-    public bool UpdateSensor(Sensor sensor)
+    public bool UpdateSensor(SensorUpdateDto sensor)
     {
         var filter = Builders<Sensor>.Filter.Eq(s => s.Id, sensor.Id);
 
         var update = Builders<Sensor>.Update
-            .Set(s => s.Location, sensor.Location);
+            .Set(s => s.Location, sensor.Location)
+            .Set(s => s.IsActive, sensor.IsActive)
+            .CurrentDate(s => s.LastUpdate);
 
         var result = _context.Sensors.UpdateOne(filter, update);
 

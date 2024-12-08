@@ -15,10 +15,8 @@ public class MongoDbContext
 
         Sensors = database.GetCollection<Sensor>("sensors");
         SensorMeasurements = database.GetCollection<SensorMeasurements>("sensorMeasurements");
-        SensorMeasurementsRaw = database.GetCollection<SensorMeasurementsRaw>("sensorMeasurementsRaw");
     }
 
     public IMongoCollection<Sensor> Sensors { get; set; }
     public IMongoCollection<SensorMeasurements> SensorMeasurements { get; set; }
-    public IMongoCollection<SensorMeasurementsRaw> SensorMeasurementsRaw { get; set; }
 }

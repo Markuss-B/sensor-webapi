@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SensorWebApi.Models;
-using SensorWebApi.Models.Dto;
 using SensorWebApi.Services;
 
 namespace SensorWebApi.Controllers;
@@ -50,19 +49,28 @@ public class SensorController : ControllerBase
 
     // PUT: api/sensor
     [HttpPut]
-    public ActionResult Put(Sensor sensor)
+    public ActionResult Put(SensorUpdateDto sensor)
     {
         // check if sensor exists
         var existingSensor = _sensorService.GetSensorById(sensor.Id);
         if (existingSensor == null)
-            return NotFound();
+            return NotFound("Sensor not found");
+
+        if (NoChangesToSensor(existingSensor, sensor))
+            return Ok("No changes to sensor");
 
         var success = _sensorService.UpdateSensor(sensor);
 
         if (!success)
             return BadRequest();
 
-        return Ok();
+        return Ok("Sensor updated");
+    }
+
+    private bool NoChangesToSensor(Sensor sensor, SensorUpdateDto sensorUpdate)
+    {
+        return sensor.IsActive == sensorUpdate.IsActive &&
+               sensor.Location == sensorUpdate.Location;
     }
 
     //// GET: api/Sensor/5/latestmeasurment
