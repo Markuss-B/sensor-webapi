@@ -25,6 +25,7 @@ builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("Mo
 builder.Services.AddSingleton<MongoDbContext>();
 
 builder.Services.AddScoped<SensorService>();
+builder.Services.AddSingleton<GroupTrackingService>();
 builder.Services.AddSingleton<SensorWatcherService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
