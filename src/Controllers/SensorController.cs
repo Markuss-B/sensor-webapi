@@ -54,17 +54,17 @@ public class SensorController : ControllerBase
         // check if sensor exists
         var existingSensor = _sensorService.GetSensorById(sensor.Id);
         if (existingSensor == null)
-            return NotFound("Sensor not found");
+            return NotFound();
 
         if (NoChangesToSensor(existingSensor, sensor))
-            return Ok("No changes to sensor");
+            return Ok();
 
         var success = _sensorService.UpdateSensor(sensor);
 
         if (!success)
             return BadRequest();
 
-        return Ok("Sensor updated");
+        return Ok();
     }
 
     private bool NoChangesToSensor(Sensor sensor, SensorUpdateDto sensorUpdate)
