@@ -44,7 +44,7 @@ public class Sensor
     /// Is the sensor active.
     /// </summary>
     [BsonElement("isActive")]
-    public bool? IsActive { get; set; }
+    public bool IsActive { get; set; } = true;
 
     /// <summary>
     /// Location of the sensor set by the user.
