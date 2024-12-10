@@ -51,12 +51,6 @@ public class Sensor
     /// </summary>
     [BsonElement("location")]
     public string? Location { get; set; }
-
-    /// <summary>
-    /// Last update time of the sensor.
-    /// </summary>
-    [BsonElement("lastUpdate")]
-    public DateTime? LastUpdate { get; set; }
 }
 
 public class SensorUpdateDto

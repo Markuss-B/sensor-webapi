@@ -85,8 +85,7 @@ public class SensorService
 
         var update = Builders<Sensor>.Update
             .Set(s => s.Location, sensor.Location)
-            .Set(s => s.IsActive, sensor.IsActive)
-            .CurrentDate(s => s.LastUpdate);
+            .Set(s => s.IsActive, sensor.IsActive);
 
         var result = _context.Sensors.UpdateOne(filter, update);
 
