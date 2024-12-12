@@ -9,7 +9,7 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
-        builder.WithOrigins("http://localhost:4200")
+        builder.WithOrigins("http://localhost", "http://localhost:4200")
                .AllowAnyHeader()
                .AllowAnyMethod()
                .AllowCredentials();
@@ -48,7 +48,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-app.MapHub<SensorHub>("/sensorhub");
+app.MapHub<SensorHub>("api/sensorhub");
 
 app.Run();
 
