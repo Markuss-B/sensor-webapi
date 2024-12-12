@@ -8,7 +8,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0CF3E25C-9787-4A24-892E-091DFD43C063}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		Dockerfile = Dockerfile
 		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{2A69C7C6-742A-4019-8043-7AF704F459AB}"
+	ProjectSection(SolutionItems) = preProject
+		.build\compose.yaml = .build\compose.yaml
+		.build\README.md = .build\README.md
 	EndProjectSection
 EndProject
 Global

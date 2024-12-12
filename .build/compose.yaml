@@ -1,0 +1,19 @@
+name: sensor
+
+services:
+  sensor-webapi-dev:
+    image: sensor-webapi-dev
+    networks:
+      - sensor-network
+    container_name: sensor-webapi-dev
+    environment:
+      MongoDbSettings__ConnectionString: mongodb://sensor-mongo-dev:27017/?directConnection=true
+      MongoDbSettings__DatabaseName: sensor-dev
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:80
+    ports:
+      - "127.0.0.1:5000:80"
+
+networks:
+  sensor-network:
+    external: true
