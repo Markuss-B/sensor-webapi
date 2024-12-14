@@ -5,9 +5,9 @@ using SensorWebApi.Models.Configuration;
 
 namespace SensorWebApi.Data;
 
-public class MongoDbContext
+public class MongoDb
 {
-    public MongoDbContext(IOptions<MongoDbSettings> options)
+    public MongoDb(IOptions<MongoDbSettings> options)
     {
         MongoDbSettings settings = options.Value;
         MongoClient client = new MongoClient(settings.ConnectionString);
@@ -19,4 +19,5 @@ public class MongoDbContext
 
     public IMongoCollection<Sensor> Sensors { get; set; }
     public IMongoCollection<SensorMeasurements> SensorMeasurements { get; set; }
+    public IMongoCollection<SensorMetadatas> SensorMetadatas { get; set; }
 }

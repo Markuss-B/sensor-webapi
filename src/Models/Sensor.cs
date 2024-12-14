@@ -16,30 +16,6 @@ public class Sensor
     /// </summary>
     [BsonElement("topics")]
     public List<string>? Topics { get; set; }
-
-    /// <summary>
-    /// Sensor name set by the sensor.
-    /// </summary>
-    [BsonElement("name")]
-    public string? Name { get; set; }
-
-    /// <summary>
-    /// Product number of the sensor set by the sensor.
-    /// </summary>
-    [BsonElement("productNumber")]
-    public string? ProductNumber { get; set; }
-
-    /// <summary>
-    /// Group identifier for the sensor set by the sensor.
-    /// </summary>
-    [BsonElement("group")]
-    public string? Group { get; set; }
-
-    /// <summary>
-    /// Group ID of the sensor set by the sensor.
-    /// </summary>
-    [BsonElement("groupId")]
-    public string? GroupId { get; set; }
     /// <summary>
     /// Is the sensor active.
     /// </summary>
@@ -51,6 +27,20 @@ public class Sensor
     /// </summary>
     [BsonElement("location")]
     public string? Location { get; set; }
+    /// <summary>
+    /// Metadata of the sensor which is received from the sensor by MQTT.
+    [BsonElement("metadata")]
+    public Dictionary<string, object> Metadata { get; set; }
+    /// <summary>
+    /// Lastest measurement timestamp.
+    /// </summary>
+    [BsonElement("latestMeasurementTimestamp")]
+    public DateTime LatestMeasurementTimestamp { get; set; } // Time the measurement was recorded
+    /// <summary>
+    /// Latest measurements from the sensor.
+    /// </summary>
+    [BsonElement("latestMeasurements")]
+    public Dictionary<string, object> LatestMeasurements { get; set; } // Dictionary for varied measurement fields
 }
 
 public class SensorUpdateDto

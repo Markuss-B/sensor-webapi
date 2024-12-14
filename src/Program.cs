@@ -22,7 +22,7 @@ builder.Services.AddControllers();
 builder.Services.AddSignalR();
 
 builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDbSettings"));
-builder.Services.AddSingleton<MongoDbContext>();
+builder.Services.AddSingleton<MongoDb>();
 
 builder.Services.AddScoped<SensorService>();
 builder.Services.AddSingleton<GroupTrackingService>();

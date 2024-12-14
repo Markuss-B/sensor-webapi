@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 public class SensorWatcherService
 {
     private readonly ILogger<SensorWatcherService> _logger;
-    private readonly MongoDbContext _context;
+    private readonly MongoDb _context;
     private readonly IHubContext<SensorHub> _hubContext;
     private ConcurrentDictionary<string, byte> _watchedSensors;
     private CancellationTokenSource _cancellationTokenSource;
@@ -21,7 +21,7 @@ public class SensorWatcherService
 
     public SensorWatcherService(
         ILogger<SensorWatcherService> logger,
-        MongoDbContext context,
+        MongoDb context,
         IHubContext<SensorHub> hubContext)
     {
         _logger = logger;

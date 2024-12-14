@@ -7,11 +7,11 @@ namespace SensorWebApi.Services;
 
 public class SensorService
 {
-    private readonly MongoDbContext _context;
+    private readonly MongoDb _db;
 
-    public SensorService(MongoDbContext context)
+    public SensorService(MongoDb db)
     {
-        _context = context;
+        _db = db;
     }
 
     /// <summary>
@@ -19,7 +19,7 @@ public class SensorService
     /// </summary>
     public List<Sensor> GetSensors()
     {
-        return _context.Sensors
+        return _db.Sensors
             .Find(FilterDefinition<Sensor>.Empty)
             .ToList();
     }
@@ -29,7 +29,7 @@ public class SensorService
     /// </summary>
     public Sensor? GetSensorById(string sensorId)
     {
-        return _context.Sensors
+        return _db.Sensors
             .Find(s => s.Id == sensorId)
             .FirstOrDefault();
     }
@@ -61,7 +61,7 @@ public class SensorService
             filter &= filterBuilder.Lte(s => s.Timestamp, dateTo);
         }
 
-        var query = _context.SensorMeasurements
+        var query = _db.SensorMeasurements
             .Find(filter);
 
         if (!dateFrom.HasValue && !dateTo.HasValue)
@@ -79,7 +79,7 @@ public class SensorService
     /// </summary>
     /// <param name="sensor"></param>
     /// <returns></returns>
-    public bool UpdateSensor(SensorUpdateDto sensor)
+    public bool UpdateSensor(SensorUpdateDto sensor, Sensor oldSensor)
     {
         var filter = Builders<Sensor>.Filter.Eq(s => s.Id, sensor.Id);
 
@@ -87,8 +87,35 @@ public class SensorService
             .Set(s => s.Location, sensor.Location)
             .Set(s => s.IsActive, sensor.IsActive);
 
-        var result = _context.Sensors.UpdateOne(filter, update);
+        var result = _db.Sensors.UpdateOne(filter, update);
 
-        return result.ModifiedCount > 0;
+        if (result.ModifiedCount > 0)
+        {
+            if (sensor.Location != oldSensor.Location)
+            {
+                SaveMetadataHistory(sensor.Id, nameof(sensor.Location), sensor.Location);
+            }
+
+            if (sensor.IsActive != oldSensor.IsActive)
+            {
+                SaveMetadataHistory(sensor.Id, nameof(sensor.IsActive), sensor.IsActive.ToString());
+            }
+        }
+
+        return true;
+    }
+
+    private void SaveMetadataHistory(string sensorId, string field, string newValue)
+    {
+        var history = new SensorMetadatas
+        {
+            SensorId = sensorId,
+            Timestamp = DateTime.UtcNow,
+            Metadata = new Dictionary<string, object>
+            {
+                { field, newValue }
+            }
+        };
+        _db.SensorMetadatas.InsertOne(history);
     }
 }

@@ -59,7 +59,7 @@ public class SensorController : ControllerBase
         if (NoChangesToSensor(existingSensor, sensor))
             return Ok();
 
-        var success = _sensorService.UpdateSensor(sensor);
+        var success = _sensorService.UpdateSensor(sensor, existingSensor);
 
         if (!success)
             return BadRequest();
