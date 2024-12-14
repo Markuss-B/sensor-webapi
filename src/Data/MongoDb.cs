@@ -15,6 +15,7 @@ public class MongoDb
 
         Sensors = database.GetCollection<Sensor>("sensors");
         SensorMeasurements = database.GetCollection<SensorMeasurements>("sensorMeasurements");
+        SensorMetadatas = database.GetCollection<SensorMetadatas>("sensorMetadatas");
     }
 
     public IMongoCollection<Sensor> Sensors { get; set; }
