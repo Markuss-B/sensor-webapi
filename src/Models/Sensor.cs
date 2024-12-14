@@ -41,6 +41,11 @@ public class Sensor
     /// </summary>
     [BsonElement("latestMeasurements")]
     public Dictionary<string, object> LatestMeasurements { get; set; } // Dictionary for varied measurement fields
+    /// <summary>
+    /// Description field which is set by the user.
+    /// 
+    [BsonElement("description")]
+    public string? Description { get; set; }
 }
 
 public class SensorUpdateDto
@@ -48,4 +53,5 @@ public class SensorUpdateDto
     public string Id { get; set; }
     public string? Location { get; set; }
     public bool? IsActive { get; set; }
+    public string? Description { get; set; }
 }

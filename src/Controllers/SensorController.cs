@@ -69,8 +69,9 @@ public class SensorController : ControllerBase
 
     private bool NoChangesToSensor(Sensor sensor, SensorUpdateDto sensorUpdate)
     {
-        return sensor.IsActive == sensorUpdate.IsActive &&
-               sensor.Location == sensorUpdate.Location;
+        return sensor.IsActive == sensorUpdate.IsActive 
+            && sensor.Location == sensorUpdate.Location
+            && sensor.Description == sensorUpdate.Description;
     }
 
     //// GET: api/Sensor/5/latestmeasurment

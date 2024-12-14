@@ -75,22 +75,24 @@ public class SensorService
     }
 
     /// <summary>
-    /// Updates a sensor. Currently only allows updates on the location and isActive.
+    /// Updates a sensor. Currently only allows updates on the location and isActive and description.
     /// </summary>
     /// <param name="sensor"></param>
-    /// <returns></returns>
+    /// <returns>True if the sensor was updated, false otherwise.</returns>
     public bool UpdateSensor(SensorUpdateDto sensor, Sensor oldSensor)
     {
         var filter = Builders<Sensor>.Filter.Eq(s => s.Id, sensor.Id);
 
         var update = Builders<Sensor>.Update
             .Set(s => s.Location, sensor.Location)
-            .Set(s => s.IsActive, sensor.IsActive);
+            .Set(s => s.IsActive, sensor.IsActive)
+            .Set(s => s.Description, sensor.Description);
 
         var result = _db.Sensors.UpdateOne(filter, update);
 
         if (result.ModifiedCount > 0)
         {
+            // If modified location or isActive, save metadata change history
             if (sensor.Location != oldSensor.Location)
             {
                 SaveMetadataHistory(sensor.Id, nameof(sensor.Location), sensor.Location);
