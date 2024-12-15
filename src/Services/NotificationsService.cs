@@ -23,14 +23,6 @@ public class NotificationsService
             .ToList();
     }
 
-    public bool AcknowledgeNotification(string notificationId)
-    {
-        var update = Builders<Notification>.Update.Set(n => n.IsAcknowledged, true);
-        var result = _db.Notifications.UpdateOne(n => n.Id == notificationId, update);
-
-        return true;
-    }
-
     // Notification Rules
 
     public List<NotificationRule> GetNotificationRules()
@@ -42,37 +34,42 @@ public class NotificationsService
 
     public NotificationRule? GetNotificationRule(string ruleId)
     {
-        var query = _db.NotificationRules.AsQueryable()
-            .GroupJoin(_db.Notifications.AsQueryable(),
-                rule => rule.Id,
-                notification => notification.RuleId,
-                (rule, notifications) => new NotificationRule
-                {
-                    Id = rule.Id,
-                    Name = rule.Name,
-                    SensorId = rule.SensorId,
-                    Measurement = rule.Measurement,
-                    Operator = rule.Operator,
-                    Value = rule.Value,
-                    Notifications = notifications.ToList()
-                });
+        var rule = _db.NotificationRules.AsQueryable()
+            .FirstOrDefault(r => r.Id == ruleId);
 
-        return query.FirstOrDefault();
+        if (rule == null)
+            return null;
+
+        var notifications = _db.Notifications.AsQueryable()
+            .Where(n => n.RuleId == ruleId)
+            .ToList();
+
+        return new NotificationRule
+        {
+            Id = rule.Id,
+            Name = rule.Name,
+            SensorId = rule.SensorId,
+            Measurement = rule.Measurement,
+            Operator = rule.Operator,
+            Value = rule.Value,
+            Notifications = notifications
+        };
     }
 
-    public bool CreateNotificationRule(NotificationRule rule)
+    public NotificationRule? CreateNotificationRule(NotificationRule rule)
     {
+        rule.Id = null;
         // InsertOne doesnt return a result, so we need to wrap it in a try-catch block
         try
         {
-            _db.NotificationRules.InsertOne(rule);
+            _db.NotificationRules.InsertOneAsync(rule);
         }
         catch
         {
-            return false;
+            return null;
         }
 
-        return true;
+        return rule;
     }
 
     public bool DeleteNotificationRule(string ruleId)

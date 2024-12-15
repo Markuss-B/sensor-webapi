@@ -21,17 +21,6 @@ public class NotificationsController : ControllerBase
         return _notificationsService.GetNotifications();
     }
 
-    [HttpPut("{notificationId}/acknowledge")]
-    public ActionResult AcknowledgeNotification(string notificationId)
-    {
-        var result = _notificationsService.AcknowledgeNotification(notificationId);
-
-        if (!result)
-            return BadRequest();
-
-        return Ok();
-    }
-
     [HttpGet("rules")]
     public ActionResult<List<NotificationRule>> GetNotificationRules()
     {
@@ -49,12 +38,12 @@ public class NotificationsController : ControllerBase
         return Ok(rule);
     }
 
-    [HttpPost("rules")]
+    [HttpPost("rules/new")]
     public ActionResult<NotificationRule> CreateNotificationRule(NotificationRule rule)
     {
         var result = _notificationsService.CreateNotificationRule(rule);
 
-        if (!result)
+        if (result == null)
             return BadRequest();
 
         return Ok(rule);

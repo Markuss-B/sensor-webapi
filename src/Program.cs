@@ -25,6 +25,7 @@ builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("Mo
 builder.Services.AddSingleton<MongoDb>();
 
 builder.Services.AddScoped<SensorService>();
+builder.Services.AddScoped<NotificationsService>();
 builder.Services.AddSingleton<GroupTrackingService>();
 builder.Services.AddSingleton<SensorWatcherService>();
 

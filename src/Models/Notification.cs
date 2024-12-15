@@ -10,6 +10,5 @@ public class Notification
     public string Message { get; set; }
     public DateTime Timestamp { get; set; }
     [BsonDefaultValue(false)]
-    public bool IsAcknowledged { get; set; }
     public string RuleId { get; set; }
 }
