@@ -20,7 +20,8 @@ public class NotificationsService
     {
         return _db.Notifications
             .Find(FilterDefinition<Notification>.Empty)
-            .ToList();
+            .SortByDescending(n => n.StartTimestamp)
+            .ToList();  
     }
 
     // Notification Rules
@@ -82,9 +83,6 @@ public class NotificationsService
     public ServiceResult UpdateNotificationRule(NotificationRule rule)
     {
         var result = _db.NotificationRules.ReplaceOne(r => r.Id == rule.Id, rule);
-
-        if (!result.IsAcknowledged)
-            return ServiceResult.BadRequest;
 
         if (result.ModifiedCount == 0)
             return ServiceResult.NotFound;
