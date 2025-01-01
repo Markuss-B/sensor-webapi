@@ -47,9 +47,9 @@ public class SensorController : ControllerBase
         return Ok(measurements);
     }
 
-    // PUT: api/sensor
-    [HttpPut]
-    public ActionResult Put(SensorUpdateDto sensor)
+    // Patch: api/sensor
+    [HttpPatch]
+    public ActionResult Patch(SensorUpdateDto sensor)
     {
         // check if sensor exists
         var existingSensor = _sensorService.GetSensorById(sensor.Id);
