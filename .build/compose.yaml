@@ -2,7 +2,7 @@ name: sensor
 
 services:
   sensor-webapi-dev:
-    image: sensor-webapi-dev
+    build: ../  
     networks:
       - sensor-network
     container_name: sensor-webapi-dev
