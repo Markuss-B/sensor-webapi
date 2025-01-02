@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using SensorWebApi.Services;
-using System.Collections.Concurrent;
-using static MongoDB.Driver.WriteConcern;
 
+/// <summary>
+/// SignalR hub for watched sensor measurements.
+/// </summary>
 public class SensorHub : Hub
 {
     private readonly ILogger<SensorHub> _logger;
@@ -15,6 +16,7 @@ public class SensorHub : Hub
         _sensorWatcherService = sensorWatcherService;
         _groupTrackingService = groupTrackingService;
     }
+
     public async Task SubscribeToSensor(string sensorId)
     {
         _logger.LogInformation("Received subscribe request from client {ConnectionId} for sensor {SensorId}.", Context.ConnectionId, sensorId);

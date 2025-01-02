@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using SensorWebApi.Models;
 using SensorWebApi.Services;
 
@@ -35,7 +33,7 @@ public class SensorController : ControllerBase
         return Ok(sensor);
     }
 
-    
+
     [HttpGet("{sensorId}/measurements/today")]
     public ActionResult<List<SensorMeasurements>> GetTodaysSensorMeasurements(string sensorId)
     {
@@ -69,7 +67,7 @@ public class SensorController : ControllerBase
 
     private bool NoChangesToSensor(Sensor sensor, SensorUpdateDto sensorUpdate)
     {
-        return sensor.IsActive == sensorUpdate.IsActive 
+        return sensor.IsActive == sensorUpdate.IsActive
             && sensor.Location == sensorUpdate.Location
             && sensor.Description == sensorUpdate.Description;
     }

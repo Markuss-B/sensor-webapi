@@ -1,7 +1,5 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using System.Text.Json.Serialization;
-using static SensorWebApi.Helpers.ObjectExtensions;
 
 namespace SensorWebApi.Models;
 

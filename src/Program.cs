@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using SensorWebApi.Data;
 using SensorWebApi.Models.Configuration;
 using SensorWebApi.Services;
@@ -21,9 +20,11 @@ builder.Services.AddControllers();
 
 builder.Services.AddSignalR();
 
+// MongoDB
 builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDbSettings"));
 builder.Services.AddSingleton<MongoDb>();
 
+// Services
 builder.Services.AddScoped<SensorService>();
 builder.Services.AddScoped<NotificationsService>();
 builder.Services.AddSingleton<GroupTrackingService>();

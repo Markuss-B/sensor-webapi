@@ -2,10 +2,7 @@
 using MongoDB.Driver;
 using SensorWebApi.Data;
 using SensorWebApi.Models;
-using SensorWebApi.Services;
 using System.Collections.Concurrent;
-using System.Threading;
-using System.Threading.Tasks;
 
 /// <summary>
 /// Service that watches for changes in the sensor measurements collection and sends updates to clients managed by <see cref="SensorHub"/>.
@@ -72,6 +69,9 @@ public class SensorWatcherService
         _watchTask = RunAsync(_cancellationTokenSource.Token);
     }
 
+    /// <summary>
+    /// Watches for changes in the sensor measurements collection and sends updates to clients.
+    /// </summary>
     private async Task RunAsync(CancellationToken cancellationToken)
     {
         var col = _context.SensorMeasurements;
@@ -82,20 +82,24 @@ public class SensorWatcherService
             {
                 _logger.LogInformation("Starting change stream to watch [{WatchedSensors}].", string.Join(", ", _watchedSensors.Keys));
 
+                // Only watch for insert operations on the watched sensors
                 var pipeline = new EmptyPipelineDefinition<ChangeStreamDocument<SensorMeasurements>>()
                     .Match(change =>
                         change.OperationType == ChangeStreamOperationType.Insert &&
                         _watchedSensors.ContainsKey(change.FullDocument.SensorId));
 
+                // Include the full document in the change stream event
                 var options = new ChangeStreamOptions
                 {
                     FullDocument = ChangeStreamFullDocumentOption.UpdateLookup,
                 };
 
+                // Start the change stream
                 using var cursor = await col.WatchAsync(pipeline, options, cancellationToken);
 
                 _logger.LogInformation("Watching for changes in sensor measurements collection.");
 
+                // Process change stream events
                 await cursor.ForEachAsync(async change =>
                 {
 
@@ -104,6 +108,7 @@ public class SensorWatcherService
 
                     _logger.LogInformation("Change stream detected for sensorId {SensorId}.", sensorId);
 
+                    // Send update to clients subscribed to the sensor
                     if (_watchedSensors.TryGetValue(sensorId, out var clients))
                     {
                         _logger.LogDebug("Sending update for sensorId {SensorId} to clients.", sensorId);

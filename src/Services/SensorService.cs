@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using SensorWebApi.Data;
 using SensorWebApi.Models;
 

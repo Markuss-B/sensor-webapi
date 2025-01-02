@@ -21,7 +21,7 @@ public class NotificationsService
         return _db.Notifications
             .Find(FilterDefinition<Notification>.Empty)
             .SortByDescending(n => n.StartTimestamp)
-            .ToList();  
+            .ToList();
     }
 
     // Notification Rules
@@ -38,9 +38,11 @@ public class NotificationsService
         var rule = _db.NotificationRules.AsQueryable()
             .FirstOrDefault(r => r.Id == ruleId);
 
+        // Rule doesn't exist
         if (rule == null)
             return null;
 
+        // Get notifications for the rule
         var notifications = _db.Notifications.AsQueryable()
             .Where(n => n.RuleId == ruleId)
             .ToList();

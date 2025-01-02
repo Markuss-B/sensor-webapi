@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
-using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 using SensorWebApi.Models;
 using SensorWebApi.Models.Configuration;
