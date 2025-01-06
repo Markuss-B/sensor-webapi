@@ -1,10 +1,6 @@
 # To run with docker compose
 
-Build image in sensor-consumer project main directory.
-```
-docker build -t sensor-webapi-dev .
-```
-Modify the `compose.yaml` file to set used database.
+Optiona: modify the `compose.yaml` file to set used database. By default uses the db created by sensor-consumer compose file.
 
 Run the docker compose file in the main directory.
 ```
