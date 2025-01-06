@@ -15,18 +15,21 @@ public class NotificationsController : ControllerBase
         _notificationsService = notificationsService;
     }
 
+    // GET: api/Notifications
     [HttpGet]
     public ActionResult<List<Notification>> GetNotifications()
     {
         return _notificationsService.GetNotifications();
     }
 
+    // GET: api/Notifications/rules
     [HttpGet("rules")]
     public ActionResult<List<NotificationRule>> GetNotificationRules()
     {
         return _notificationsService.GetNotificationRules();
     }
 
+    // GET: api/Notifications/rules/5
     [HttpGet("rules/{ruleId}")]
     public ActionResult<NotificationRule> GetNotificationRule(string ruleId)
     {
@@ -38,6 +41,7 @@ public class NotificationsController : ControllerBase
         return Ok(rule);
     }
 
+    // POST: api/Notifications/rules/new
     [HttpPost("rules/new")]
     public ActionResult<NotificationRule> CreateNotificationRule(NotificationRule rule)
     {
@@ -49,6 +53,7 @@ public class NotificationsController : ControllerBase
         return Ok(rule);
     }
 
+    // DELETE: api/Notifications/rules/5
     [HttpDelete("rules/{ruleId}")]
     public ActionResult DeleteNotificationRule(string ruleId)
     {

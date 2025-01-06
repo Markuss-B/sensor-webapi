@@ -33,6 +33,7 @@ public class SensorController : ControllerBase
         return Ok(sensor);
     }
 
+    // GET: api/Sensor/5/measurements/today
 
     [HttpGet("{sensorId}/measurements/today")]
     public ActionResult<List<SensorMeasurements>> GetTodaysSensorMeasurements(string sensorId)
